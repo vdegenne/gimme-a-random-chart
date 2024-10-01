@@ -5,7 +5,7 @@ import styles from './app-shell.css?inline';
 import {materialShellLoadingOff} from 'material-shell';
 import {withController} from '@snar/lit';
 import {astate} from '../state.js';
-import {binance} from '../binance.js';
+import s2l from 'coinmarketcap-s2l';
 
 declare global {
 	interface Window {
@@ -21,25 +21,37 @@ declare global {
 @withController(astate)
 export class AppShell extends LitElement {
 	// @query('.tradingview-widget-container') tradingViewContainer!: HTMLDivElement;
+	@query('#base-button') baseButton!: HTMLButtonElement;
 
 	firstUpdated() {
 		materialShellLoadingOff.call(this);
 	}
 
-	// protected createRenderRoot(): HTMLElement | DocumentFragment {
-	// 	return this;
-	// }
-
 	render() {
 		return html`
+			<div id="loading" ?loading=${astate.loading}>
+				<md-circular-progress indeterminate></md-circular-progress>
+			</div>
 			${astate.selectedBase
 				? html`<slot></slot>
-						<md-elevated-button
-							id="another-chart-button"
-							@click=${() => astate.gimmeARandomChartPlease()}
-						>
-							<md-icon slot="icon">casino</md-icon> another chart
-						</md-elevated-button> `
+						<div id="buttons">
+							<md-elevated-button
+								href=${s2l(astate.selectedBase)}
+								target="_blank"
+								id="base-button"
+								>${astate.selectedBase}</md-elevated-button
+							>
+							<md-filled-tonal-button inert>
+								<md-icon slot="icon">schedule</md-icon>
+								${astate.period}</md-filled-tonal-button
+							>
+							<md-filled-button
+								id="another-chart-button"
+								@click=${() => astate.gimmeARandomChartPlease()}
+							>
+								<md-icon slot="icon">casino</md-icon> another chart
+							</md-filled-button>
+						</div> `
 				: html`
 						<md-elevated-button @click=${() => astate.gimmeARandomChartPlease()}
 							>gimme a random chart please</md-elevated-button

@@ -13,3 +13,4 @@ document.querySelector<HTMLElement>('material-shell').appendChild(app);
 import './event-listeners.js';
 
 import './binance.js';
+import './gamepad.js';

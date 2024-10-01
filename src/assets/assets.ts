@@ -4,6 +4,9 @@ import {html} from 'lit';
 // export {default as MY_IMAGE} from './img/my-image.png?inline';
 // etc...
 
+import switchSrc from './audio/switch.mp3';
+export const AUDIO_SWITCH = new Audio(switchSrc);
+
 // Note: Assets from public directory can't be inlined.
 // Instead a url to the resource will be used in place.
 // unless `?raw` is being used(?)
