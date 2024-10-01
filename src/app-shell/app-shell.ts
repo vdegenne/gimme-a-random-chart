@@ -36,7 +36,7 @@ export class AppShell extends LitElement {
 				? html`<slot></slot>
 						<div id="buttons">
 							<md-elevated-button
-								href=${s2l(astate.selectedBase)}
+								href="${s2l(astate.selectedBase)}#about"
 								target="_blank"
 								id="base-button"
 								>${astate.selectedBase}</md-elevated-button
