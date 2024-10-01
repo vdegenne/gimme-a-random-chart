@@ -56,7 +56,7 @@ export class AppState extends ReactiveController {
 				interval: this.period,
 				timezone: 'Etc/UTC',
 				theme: 'dark',
-				style: '1',
+				style: '2',
 				locale: 'en',
 				hide_top_toolbar: true,
 				hide_legend: true,
