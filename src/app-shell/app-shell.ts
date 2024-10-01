@@ -20,7 +20,7 @@ declare global {
 @withStyles(styles)
 @withController(astate)
 export class AppShell extends LitElement {
-	@query('.tradingview-widget-container') tradingViewContainer!: HTMLDivElement;
+	// @query('.tradingview-widget-container') tradingViewContainer!: HTMLDivElement;
 
 	firstUpdated() {
 		materialShellLoadingOff.call(this);
@@ -34,12 +34,12 @@ export class AppShell extends LitElement {
 		return html`
 			${astate.selectedBase
 				? html`<slot></slot>
-						<md-filled-button
+						<md-elevated-button
 							id="another-chart-button"
 							@click=${() => astate.gimmeARandomChartPlease()}
 						>
 							<md-icon slot="icon">casino</md-icon> another chart
-						</md-filled-button> `
+						</md-elevated-button> `
 				: html`
 						<md-elevated-button @click=${() => astate.gimmeARandomChartPlease()}
 							>gimme a random chart please</md-elevated-button
