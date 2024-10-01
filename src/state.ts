@@ -7,10 +7,17 @@ import {AUDIO_SWITCH} from './assets/assets.js';
 import {speakEnglish} from '@vdegenne/speech';
 import {sleep} from './utils.js';
 
+const periods = ['1D', '1W'] as const;
+const periodNames = {
+	'1D': '1 day',
+	'1W': '1 week',
+};
+type Period = (typeof periods)[number];
+
 @saveToLocalStorage('garcp:state')
 export class AppState extends ReactiveController {
 	@state() selectedBase: string | null = null;
-	@state() period = 'D';
+	@state() period: Period = '1D';
 	@state() loading = false;
 
 	async gimmeARandomChartPlease() {
@@ -24,8 +31,18 @@ export class AppState extends ReactiveController {
 		this.selectedBase = pairs[Math.floor(Math.random() * pairs.length)];
 	}
 
+	selectNextPeriod() {
+		const index = periods.indexOf(this.period);
+		const next = (index + 1) % periods.length;
+		this.period = periods[next];
+		speakEnglish(periodNames[this.period]);
+	}
+
 	async updated(changed: PropertyValues<this>) {
-		if (changed.has('selectedBase') && this.selectedBase) {
+		if (
+			(changed.has('selectedBase') && this.selectedBase) ||
+			changed.has('period')
+		) {
 			await app.updateComplete;
 			app.innerHTML = '';
 			const script = document.createElement('script');
@@ -52,7 +69,9 @@ export class AppState extends ReactiveController {
 			app.appendChild(script);
 			setTimeout(() => {
 				this.loading = false;
-				speakEnglish(astate.selectedBase!);
+				if (changed.has('selectedBase')) {
+					speakEnglish(astate.selectedBase!);
+				}
 			}, 1000);
 		}
 	}
