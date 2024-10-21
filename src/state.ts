@@ -19,6 +19,7 @@ export class AppState extends ReactiveController {
 	@state() selectedBase: string | null = null;
 	@state() period: Period = '1D';
 	@state() loading = false;
+	@state() theme: 'dark' | 'light' = 'dark';
 
 	async gimmeARandomChartPlease() {
 		this.loading = true;
@@ -41,7 +42,8 @@ export class AppState extends ReactiveController {
 	async updated(changed: PropertyValues<this>) {
 		if (
 			(changed.has('selectedBase') && this.selectedBase) ||
-			changed.has('period')
+			changed.has('period') ||
+			changed.has('theme')
 		) {
 			await app.updateComplete;
 			app.innerHTML = '';
@@ -55,8 +57,8 @@ export class AppState extends ReactiveController {
 				symbol: `BINANCE:${this.selectedBase}USDT`,
 				interval: this.period,
 				timezone: 'Etc/UTC',
-				theme: 'dark',
-				style: '2',
+				theme: this.theme,
+				style: '1',
 				locale: 'en',
 				hide_top_toolbar: true,
 				hide_legend: true,

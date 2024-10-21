@@ -3,6 +3,7 @@ import {PropertyValues} from 'lit';
 import {ColorMode, ThemeManager} from 'lit-with-styles';
 import {state} from 'snar';
 import {saveToLocalStorage} from 'snar-save-to-local-storage';
+import {astate} from '../state.js';
 
 @saveToLocalStorage('sfc:theme')
 class ThemeStore extends ReactiveController {
@@ -26,9 +27,10 @@ class ThemeStore extends ReactiveController {
 			this.themeColor,
 			ThemeManager.appliedColorScheme === 'dark',
 			'vibrant',
-			0
+			0,
 		);
 		applyTheme(document, theme!);
+		astate.theme = ThemeManager.appliedColorScheme!;
 	}
 
 	toggleMode() {
